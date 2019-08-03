@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 
 namespace ProjetoWebMVC.Models
 {
@@ -13,6 +9,14 @@ namespace ProjetoWebMVC.Models
         {
         }
 
-        public DbSet<ProjetoWebMVC.Models.Departamento> Departamento { get; set; }
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<CandidatoVaga>()
+                .HasKey(c => new { c.IdCandidato, c.IdVaga });
+        }
+
+        public DbSet<ProjetoWebMVC.Models.Candidato> Candidato { get; set; }
+
+        public DbSet<ProjetoWebMVC.Models.Vaga> Vaga { get; set; }
     }
 }

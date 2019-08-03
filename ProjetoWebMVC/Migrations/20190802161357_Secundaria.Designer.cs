@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ProjetoWebMVC.Models;
 
 namespace ProjetoWebMVC.Migrations
 {
     [DbContext(typeof(ProjetoWebMVCContext))]
-    partial class ProjetoWebMVCContextModelSnapshot : ModelSnapshot
+    [Migration("20190802161357_Secundaria")]
+    partial class Secundaria
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -22,6 +24,8 @@ namespace ProjetoWebMVC.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<int?>("DepartamentoId");
+
                     b.Property<string>("Email");
 
                     b.Property<string>("Nome");
@@ -32,45 +36,28 @@ namespace ProjetoWebMVC.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("DepartamentoId");
+
                     b.ToTable("Candidato");
                 });
 
-            modelBuilder.Entity("ProjetoWebMVC.Models.CandidatoVaga", b =>
-                {
-                    b.Property<int>("IdCandidato");
-
-                    b.Property<int>("IdVaga");
-
-                    b.Property<int?>("VagaId");
-
-                    b.HasKey("IdCandidato", "IdVaga");
-
-                    b.HasIndex("VagaId");
-
-                    b.ToTable("CandidatoVaga");
-                });
-
-            modelBuilder.Entity("ProjetoWebMVC.Models.Vaga", b =>
+            modelBuilder.Entity("ProjetoWebMVC.Models.Departamento", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("Descricao");
-
                     b.Property<string>("Nome");
-
-                    b.Property<bool>("Status");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Vaga");
+                    b.ToTable("Departamento");
                 });
 
-            modelBuilder.Entity("ProjetoWebMVC.Models.CandidatoVaga", b =>
+            modelBuilder.Entity("ProjetoWebMVC.Models.Candidato", b =>
                 {
-                    b.HasOne("ProjetoWebMVC.Models.Vaga")
+                    b.HasOne("ProjetoWebMVC.Models.Departamento")
                         .WithMany("Candidatos")
-                        .HasForeignKey("VagaId");
+                        .HasForeignKey("DepartamentoId");
                 });
 #pragma warning restore 612, 618
         }

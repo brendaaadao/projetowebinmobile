@@ -9,62 +9,68 @@ using ProjetoWebMVC.Models;
 
 namespace ProjetoWebMVC.Controllers
 {
-    public class DepartamentosController : Controller
+    public class VagasController : Controller
     {
         private readonly ProjetoWebMVCContext _context;
 
-        public DepartamentosController(ProjetoWebMVCContext context)
+        public VagasController(ProjetoWebMVCContext context)
         {
             _context = context;
         }
 
-        // GET: Departamentos
+        // GET: Vagas
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Departamento.ToListAsync());
+            return View(await _context.Vaga.ToListAsync());
         }
 
-        // GET: Departamentos/Details/5
+        public IActionResult Candidatar(CandidatoVaga candidatoVaga)
+        {
+            var teste = candidatoVaga.IdVaga;
+            return View();
+        }
+
+        // GET: Vagas/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
-
-            var departamento = await _context.Departamento
+            var candidatos = _context.Candidato.ToList();
+            var vaga = await _context.Vaga
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (departamento == null)
+            if (vaga == null)
             {
                 return NotFound();
             }
-
-            return View(departamento);
+            ViewBag.Candidatos = candidatos;
+            return View(vaga);
         }
 
-        // GET: Departamentos/Create
+        // GET: Vagas/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Departamentos/Create
+        // POST: Vagas/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Nome")] Departamento departamento)
+        public async Task<IActionResult> Create([Bind("Id,Nome,Descricao,Status")] Vaga vaga)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(departamento);
+                _context.Add(vaga);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(departamento);
+            return View(vaga);
         }
 
-        // GET: Departamentos/Edit/5
+        // GET: Vagas/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -72,22 +78,22 @@ namespace ProjetoWebMVC.Controllers
                 return NotFound();
             }
 
-            var departamento = await _context.Departamento.FindAsync(id);
-            if (departamento == null)
+            var vaga = await _context.Vaga.FindAsync(id);
+            if (vaga == null)
             {
                 return NotFound();
             }
-            return View(departamento);
+            return View(vaga);
         }
 
-        // POST: Departamentos/Edit/5
+        // POST: Vagas/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Nome")] Departamento departamento)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Nome,Descricao,Status")] Vaga vaga)
         {
-            if (id != departamento.Id)
+            if (id != vaga.Id)
             {
                 return NotFound();
             }
@@ -96,12 +102,12 @@ namespace ProjetoWebMVC.Controllers
             {
                 try
                 {
-                    _context.Update(departamento);
+                    _context.Update(vaga);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!DepartamentoExists(departamento.Id))
+                    if (!VagaExists(vaga.Id))
                     {
                         return NotFound();
                     }
@@ -112,10 +118,10 @@ namespace ProjetoWebMVC.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(departamento);
+            return View(vaga);
         }
 
-        // GET: Departamentos/Delete/5
+        // GET: Vagas/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -123,30 +129,30 @@ namespace ProjetoWebMVC.Controllers
                 return NotFound();
             }
 
-            var departamento = await _context.Departamento
+            var vaga = await _context.Vaga
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (departamento == null)
+            if (vaga == null)
             {
                 return NotFound();
             }
 
-            return View(departamento);
+            return View(vaga);
         }
 
-        // POST: Departamentos/Delete/5
+        // POST: Vagas/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var departamento = await _context.Departamento.FindAsync(id);
-            _context.Departamento.Remove(departamento);
+            var vaga = await _context.Vaga.FindAsync(id);
+            _context.Vaga.Remove(vaga);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool DepartamentoExists(int id)
+        private bool VagaExists(int id)
         {
-            return _context.Departamento.Any(e => e.Id == id);
+            return _context.Vaga.Any(e => e.Id == id);
         }
     }
 }
