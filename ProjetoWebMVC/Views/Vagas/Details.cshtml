@@ -29,14 +29,14 @@
             <dd>
                 @Html.DisplayFor(model => model.Status)
             </dd>
-            <dt>
+            @*<dt>
                 Candidatar-se
             </dt>
             <dd>
                 @Html.Hidden("IdVaga", Model.Id)  
                 @Html.DropDownList("IdCandidato", new SelectList(ViewBag.candidatos, "Id", "Nome"))
                 <input type="submit" value="Candidatar-se" class="btn btn-primary" />
-            </dd>
+            </dd>*@
         </dl>
         </form>
 </div>
