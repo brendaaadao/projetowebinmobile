@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -148,5 +149,30 @@ namespace ProjetoWebMVC.Controllers
         {
             return _context.Candidato.Any(e => e.Id == id);
         }
+
+
+        //teste
+
+        //[AcceptVerbs(HttpVerbs.Post)]
+
+        //public ActionResult NomeAction(FormCollection f)
+
+        //{
+
+        //    if (Request.Files.Count > 0 && Request.Files[0].FileName != "")
+
+        //    {
+
+        //        int tamanho = (int)Request.Files[0].InputStream.Length;
+
+        //        byte[] arq = new byte[tamanho];
+
+        //        Request.Files[0].InputStream.Read(arq, 0, tamanho);
+
+        //        byte[] arquivo = arq;
+
+        //    }
+
+        //}
     }
 }
